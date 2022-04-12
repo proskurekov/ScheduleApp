@@ -1,0 +1,34 @@
+name: Deployment ScheduleApp
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+        
+    - name: publish
+      run: |
+        dotnet publish -c release
+      
+    - name: Change base-tag in index.html from / to the necessary
+      run: sed -i 's/<base href="\/" \/>/<base href="\/ScheduleApp\/" \/>/g' ./bin/release/net6.0/publish/wwwroot/index.html
+      
+    - name: Add .nojekyll file
+      run: touch ./bin/release/net6.0/publish/wwwroot/.nojekyll
+      
+    - uses: JamesIves/github-pages-deploy-action@4.1.4
+      name: gh-pages publish
+      with:
+        branch: gh-pages
+        folder: ./bin/release/net6.0/publish/wwwroot
