@@ -1,0 +1,41 @@
+
+<div class="card_info">
+    <h2 class="card_title">Общая информация</h2>
+    <div class="card">
+        <p>Число работ: @Job</p>
+        <p>Число машин: @Machine</p>
+        <p>Число задач: @Tasks</p>
+        @if (ZeroCell)
+        {
+            <p>Пустые ячейки: вкл</p>
+        }
+        else 
+        {
+            <p>Пустые ячейки: выкл</p>
+        }
+        @if (Status)
+        {
+            <p>Статус: сгенерировано </p>   
+        }
+        else
+        {
+            <p>Статус: генерация</p>
+        }
+    </div>
+</div>
+
+
+
+ @code {
+    [Parameter]
+    public int Job {get;set;}
+    [Parameter]
+    public int Machine {get; set;}
+    [Parameter] 
+    public int Tasks {get; set;}
+    [Parameter]
+    public bool ZeroCell {get; set;}
+    [Parameter]
+    public bool Status {get; set;}
+
+} 

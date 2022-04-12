@@ -1,17 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
+<div class="navbar">
+    <div class="logo">
+        <img src="https://i.postimg.cc/ncSZSFnx/logo-sfu-2.png" alt="sfu_logo">
+        <span class="logo_text">Сервис автоматизации расписания</span>
+    </div>
+    <div class="info">
+        <a href="#">GitHub</a>
+        <a href="#">О сервисе</a>
+    </div>
+</div>
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu/>
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    <div class="main">
+        <div class="content">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
 </div>
