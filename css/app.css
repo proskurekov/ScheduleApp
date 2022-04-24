@@ -6,66 +6,10 @@
     box-sizing: border-box;
 }
 
-html, body {
+body {
     font-family: 'Rubik', sans-serif;
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
-}
-
-.navbar {
-    width: 100%;
-    height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    /*  */
-}
-
-.navbar .logo {
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-    gap: 10px;
-}
-
-.navbar .info a {
-    font-size: 16px;
-    margin: 25px 10px;
-}
-
-.navbar .info a:hover {
-    text-decoration: underline;
-}
-
-.page {
-    padding-top: 75px;
-    display: flex;
-}
-
-.sidebar {
-    height: 100vh;
-}
-
-.main {
-    width: 100%; 
-}
-
-.menu_tools {
-    background: rgb(255, 255, 255);
-    height: 200px;
-    width: 300px;
-}
-
-.menu_tools ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    height: inherit;
-}
-
-.menu_tools ul li {
-    padding: 10px 0;
 }
 
 a {
@@ -77,9 +21,6 @@ a {
 ul a:hover {
     color: rgb(226, 84, 41);
 }
-
-
-/* Param_panel */
 
 .param {
     display: flex;
@@ -149,7 +90,8 @@ input[type="checkbox"]
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    width: 270px;
 }
 
 .toogle button {
@@ -159,24 +101,6 @@ input[type="checkbox"]
     font-size: 24px;   
     font-weight: bold; 
 }
-
-/* CARD INFO */
-
-.card_info {
-    padding: 10px 25px;
-    border-radius: 8px;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
-}
-
-.card_info .card {
-    font-size: 18px;
-}
-
-.card p {
-    letter-spacing: 0.3px;
-    margin-top: 20px;
-}
-
 
 .validation-message {
     color: red;
