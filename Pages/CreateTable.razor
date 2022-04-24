@@ -1,83 +1,87 @@
 @page "/createtable"
+@inject DataTable Data;
 
-
-<link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
-
-<div class="param">
-    <div class="param_panel">
-        <h2>Параметры таблицы</h2>
-        <div class="inputs">
-            <div class="jobs">
-                <label for="jobs">Число работ:</label>
-                <input type="number" min="1" max="10" @bind="@Job" id="jobs">
-            </div>
-            <div class="machine">
-                <label for="machine">Число машин:</label>
-                <input type="number" min="1" max="10" @bind="@Machine" id="machine">
-            </div>
-            <div class="tasks">
-                <label for="tasks">Число задач:</label>
-                <input type="number" min="1" max="10" @bind="@Tasks" id="tasks">
-            </div>
-
-        </div>
-        <button class="sfu_button" @onclick="Generate">Сгенировать</button>
-    </div>
-
-    <div class="param_panel">
-        <div class="toogle">
-            <h2>Доп. настройки</h2>
-            @if (!Flag)
-            {
-                <button @onclick="@Toogle"><span class="material-icons">add</span></button>
-            }
-            else 
-            {
-                 <button @onclick="@Toogle"><span class="material-icons">remove</span></button>
-            }
-        </div>
-        @if (@Flag)
-        {
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+<div class="container">
+    <div class="param">
+        <div class="param_panel">
+            <h2>Параметры таблицы</h2>
             <div class="inputs">
                 <div class="jobs">
-                    <label for="select_jobs">Выбрать работу:</label>
-                    <select id="select_jobs">
-                        <option value="0">Все</option>
-                        @for (int i = 1; i <= Job; i++)
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
+                    <label for="jobs">Число работ:</label>
+                    <input type="number" min="1" max="10" @bind="@Data.Jobs" id="jobs">
                 </div>
-                <div class="zero">
-                    <label for="machine">Пустые ячейки таблицы</label>
-                    <input type="checkbox" id="zero" @bind="@ZeroCell">
+                <div class="machine">
+                    <label for="machine">Число машин:</label>
+                    <input type="number" min="1" max="10" @bind="@Data.Machines" id="machine">
                 </div>
+                <div class="tasks">
+                    <label for="tasks">Число задач:</label>
+                    <input type="number" min="1" max="10" @bind="@Data.Tasks" id="tasks">
+                </div>
+
             </div>
-            <button class="sfu_button">Заполнить таблицу</button>
-            <button class="sfu_button">Очистить таблицу</button>
-        }
+            <button class="sfu_button" @onclick="Generate">Создать таблицу</button>
+        </div>
+
+        <div class="param_panel">
+            <div class="toogle">
+                <h2>Доп. настройки</h2>
+                <button @onclick="@Toogle"><span class="material-icons">@Icon</span></button>
+            </div>
+            @if (Data.Flag)
+            {
+                <div class="inputs">
+                    <div class="jobs">
+                        <label for="select_jobs">Выбрать работу:</label>
+                        <select id="select_jobs" @bind="SelectValue">
+                            <option value="0">Все</option>
+                            @for (int i = 1; i <= Data.Jobs; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="zero">
+                        <label for="machine">Пустые ячейки таблицы</label>
+                        <input type="checkbox" id="zero" @bind="@Data.ZeroCell">
+                    </div>
+                </div>
+                <button class="sfu_button" @onclick="@(() => {Data.FillTable(SelectValue);  Refresh();})">Заполнить таблицу</button>
+                <button class="sfu_button" @onclick="@(() => {Data.ClearTable(SelectValue); Refresh();})">Очистить таблицу</button>
+            }
+        </div>
+        <Info Job="@Data.Jobs" Machine="@Data.Machines" Tasks="@Data.Tasks" ZeroCell="@Data.ZeroCell" />
     </div>
-    <Info Job="@Job" Machine="@Machine" 
-    Tasks="@Tasks" Status="@Status" ZeroCell="@ZeroCell" />
-    
-</div>
+
+    <div class="table">
+        <Table @ref="_State"/>
+    </div>
+
+</div>  
 
 @code
 {
-    public bool Flag { get; set; } = false;
-    public int Job {get; set;} = 1;
-    public int Machine {get; set;} = 1; 
-    public int Tasks {get; set;} = 1;  
-    public bool Status {get; set;} = false;
-    public bool ZeroCell {get; set;} = false;
+    private string Icon = "add";
+    private int SelectValue = 0;
+    private string Message = ""; 
+    protected Table? _State;
 
 
-    public void Toogle() => Flag = !Flag;
-
-
-    private void Generate() 
+    private void Generate()
     {
-        Status = !Status; // статус о генерации 
+        Data.Jbs = Data.InitializeJobs(); 
+        _State.RefreshState();
+    }
+
+    public void Toogle()
+    {
+        Data.Flag = !Data.Flag;
+        Icon = Data.Flag ? "remove" : "add";
+    }
+
+    private void Refresh()
+    {
+        _State.RefreshState();
     }
 }

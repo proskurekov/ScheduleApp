@@ -1,0 +1,15 @@
+
+.card_info {
+    padding: 10px 25px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card_info .card {
+    font-size: 18px;
+}
+
+.card p {
+    letter-spacing: 0.3px;
+    margin-top: 20px;
+}

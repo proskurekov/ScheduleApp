@@ -1,0 +1,16 @@
+.menu_tools {
+    background: rgb(255, 255, 255);
+    height: 200px;
+    width: 300px;
+}
+
+.menu_tools ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+}
+
+.menu_tools ul li {
+    padding: 10px 0;
+}

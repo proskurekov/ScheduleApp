@@ -1,0 +1,56 @@
+@inject DataTable Data;
+
+
+<div class="table_container">
+    <h2>Предварительный просмотр таблицы</h2>
+    <p>@Message</p>
+    <div class="table">
+        @for (int i = 1; i <= Data.Jobs; i++)
+        {
+            <table>
+                <caption>Работа @i</caption>
+                <tr>
+                    @for (int j = 1; j <= Data.Machines; j++)
+                    {
+                        <th>M @j</th>
+                    }
+                </tr>
+                @for (int k = 0; k < Data.Tasks; k++)
+                {
+                    <tr>
+                        @for (int d = 0; d < Data.Machines; d++)
+                        {
+                            var job  = i; 
+                            var task = k; 
+                            var machine = d; 
+                            var ov = Data.Jbs[job-1][task][machine].Item1;  //original value 
+                            <input type="text" name="1.ToString()" value="@ov" @onchange="@(e => OnUpdateGrid(e, job, task, machine,ov))" />
+                        }
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public List<List<(int,int)[]>> Jobs {get; set;}
+    private string Message; 
+
+    private void OnUpdateGrid(ChangeEventArgs e, int job, int task, int machine,  int originalValue)
+    {
+        string newValue = e.Value.ToString();
+        Data.Jbs[job-1][task][machine].Item1 = int.Parse(newValue);
+        Message = $"Вы выбрали работу {job} задачу {task} машину {machine} и установили значение {newValue} старое значение {originalValue}";
+        
+    }
+
+    public void RefreshState()
+    {
+        this.StateHasChanged();
+    }
+
+}
