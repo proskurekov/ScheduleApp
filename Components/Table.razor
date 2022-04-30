@@ -1,51 +1,66 @@
 @inject DataTable Data;
 
-
-<div class="table_container">
-    <h2>Предварительный просмотр таблицы</h2>
-    <p>@Message</p>
+@if (!Object.Equals(Data.Jbs,default(List<List<(int, int)[]>>)))
+{
+    <div class="table_container">
+    @if (!String.IsNullOrEmpty(Message))
+    {
+        <div class="info">
+            <span class="material-icons-outlined">priority_high</span>
+            <p class="info">@Message</p>
+        </div>
+    }
     <div class="table">
-        @for (int i = 1; i <= Data.Jobs; i++)
+        @for (int i = 0; i < Data.Jobs; i++)
         {
             <table>
-                <caption>Работа @i</caption>
-                <tr>
-                    @for (int j = 1; j <= Data.Machines; j++)
+                <caption>Работа @($"{i+1}")</caption>
+                <tr class="machine_caption">
+                    @for (int j = 0; j < Data.Machines; j++)
                     {
-                        <th>M @j</th>
+                        <th>M @($"{j+1}")</th>
                     }
                 </tr>
                 @for (int k = 0; k < Data.Tasks; k++)
                 {
+                    <div class="row">
+                    <span>T @($"{k+1}")</span>
                     <tr>
                         @for (int d = 0; d < Data.Machines; d++)
                         {
                             var job  = i; 
                             var task = k; 
                             var machine = d; 
-                            var ov = Data.Jbs[job-1][task][machine].Item1;  //original value 
+                            var ov = Data.Jbs[job][task][machine].Item1;  //original value 
                             <input type="text" name="1.ToString()" value="@ov" @onchange="@(e => OnUpdateGrid(e, job, task, machine,ov))" />
                         }
                     </tr>
+                    </div>
                 }
             </table>
         }
     </div>
 </div>
-
-
+}
 
 @code {
-    [Parameter]
-    public List<List<(int,int)[]>> Jobs {get; set;}
-    private string Message; 
+    private string Message = ""; 
 
     private void OnUpdateGrid(ChangeEventArgs e, int job, int task, int machine,  int originalValue)
     {
         string newValue = e.Value.ToString();
-        Data.Jbs[job-1][task][machine].Item1 = int.Parse(newValue);
-        Message = $"Вы выбрали работу {job} задачу {task} машину {machine} и установили значение {newValue} старое значение {originalValue}";
-        
+        try
+        {
+            Data.Jbs[job][task][machine].Item1 = int.Parse(newValue);
+            Message = $"Значение изменено: старое значение {originalValue} новое {newValue}";
+        }
+        catch (System.Exception)
+        {
+            Data.Jbs[job][task][machine].Item1 = 0;
+            Message = "Вы ввели некорректное значение";
+        }
+
+
     }
 
     public void RefreshState()

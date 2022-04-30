@@ -8,19 +8,19 @@
     /*  */
 }
 
-.navbar .logo {
+.navbar .navbar_logo {
     display: flex;
     align-items: center;
     font-size: 20px;
     gap: 10px;
 }
 
-.navbar .info a {
+.navbar .navbar_info a {
     font-size: 16px;
     margin: 25px 10px;
 }
 
-.navbar .info a:hover {
+.navbar .navbar_info a:hover {
     text-decoration: underline;
 }
 

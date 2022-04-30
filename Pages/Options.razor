@@ -1,0 +1,70 @@
+@using Newtonsoft.Json;
+@inject DataTable Data;
+@inject IJSRuntime JSRuntime; 
+@using BlazorInputFile
+
+@page "/options"
+
+<div class="content">
+    <h1>Дополнительные параметры таблицы</h1>
+    <a href="createtable" style="font-size: 16px; width: 150px;">Вернуться назад</a>
+    <div class="button">
+        <div class="input_file">
+            <label for="input" class="sfu_button">Открыть json файл</label>
+            <BlazorInputFile.InputFile OnChange="HandleSelection" id="input" class="sr-only" hidden/>
+        </div>
+        <button class="sfu_button" @onclick="SaveInJson">Сохранить таблицу</button>
+    </div>
+    <div class="file_input">
+        <label for="filename">Название файла</label>
+        <input type="text" id="filename" value="@filename"  @onchange="@(e => ChangeFileName(e))">
+    </div>
+</div>
+@jsonContent
+<Table />
+
+@code {
+    string jsonContent = "";
+    string filename = "data";
+    IFileListEntry file; 
+
+    async Task HandleSelection(IFileListEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        
+        using (var reader = new StreamReader(file.Data))
+        {
+            jsonContent = await reader.ReadToEndAsync();
+        }
+
+        if (file != null)
+        {
+            filename = Path.GetFileNameWithoutExtension(file.Name); 
+        }
+        
+    }
+
+    private async void SaveInJson()
+    {
+        var json = JsonConvert.SerializeObject(Data.Jbs, Formatting.Indented);
+
+        await JSRuntime.InvokeAsync<object>(
+            "FileSaveAs",
+            filename + ".json", 
+            json
+        );
+    }
+
+    private void ChangeFileName(ChangeEventArgs e)
+    {
+        string newValue = e.Value.ToString(); 
+        if (!string.IsNullOrEmpty(newValue))
+        {
+            filename = newValue;
+        }
+        else
+        {
+            filename = "data";
+        }
+    }
+}

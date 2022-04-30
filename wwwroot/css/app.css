@@ -18,10 +18,6 @@ a {
     font-size: 20px;
 }
 
-ul a:hover {
-    color: rgb(226, 84, 41);
-}
-
 .param {
     display: flex;
     justify-content: space-between;
@@ -57,7 +53,7 @@ input[type="number"]:focus, select:focus {
 	outline: 1px solid rgb(226, 84, 41);
 }
 
-.param_panel .sfu_button {
+.sfu_button {
     margin-top: 30px;
     padding: 10px 15px;
     border-radius: 4px;
@@ -70,7 +66,7 @@ input[type="number"]:focus, select:focus {
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
 }
 
-.param_panel button:active {
+button:active {
     transform: translateY(2px);
 }
 
@@ -101,6 +97,18 @@ input[type="checkbox"]
     font-size: 24px;   
     font-weight: bold; 
 }
+
+.info {
+    display: flex;
+    align-items: center;
+    background-color: #0d9488;  /* teal 600 из tailwind */
+    width: 520px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white;
+}
+
+
 
 .validation-message {
     color: red;

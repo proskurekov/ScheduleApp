@@ -19,7 +19,7 @@ table input {
     text-align: center;
     border: 1px solid rgb(204, 202, 202);
     border-radius: 5px;
-    width: 70px;
+    width: 55px;
     margin: 3px;
 }
 
@@ -28,7 +28,24 @@ table {
     border-spacing: 10px;
 }
 
+
+table .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+table span {
+    padding-right: 10px;
+}
+
+
 table tr {
     display: flex;
     justify-content: space-around;
+}
+
+.machine_caption{
+    width: auto;
+    margin-left: 42px;
 }

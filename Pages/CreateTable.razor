@@ -1,7 +1,6 @@
 @page "/createtable"
 @inject DataTable Data;
 
-<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 <div class="container">
     <div class="param">
         <div class="param_panel">
@@ -47,31 +46,29 @@
                         <input type="checkbox" id="zero" @bind="@Data.ZeroCell">
                     </div>
                 </div>
-                <button class="sfu_button" @onclick="@(() => {Data.FillTable(SelectValue);  Refresh();})">Заполнить таблицу</button>
-                <button class="sfu_button" @onclick="@(() => {Data.ClearTable(SelectValue); Refresh();})">Очистить таблицу</button>
+                <button class="sfu_button" @onclick="@(() => {Data.FillTable(SelectValue);  Refresh();})">Заполнить
+                    таблицу</button>
+                <button class="sfu_button" @onclick="@(() => {Data.ClearTable(SelectValue); Refresh();})">Очистить
+                    таблицу</button>
             }
         </div>
         <Info Job="@Data.Jobs" Machine="@Data.Machines" Tasks="@Data.Tasks" ZeroCell="@Data.ZeroCell" />
     </div>
-
     <div class="table">
-        <Table @ref="_State"/>
+        <Table @ref="TableObject" />
     </div>
-
-</div>  
+</div>
 
 @code
 {
     private string Icon = "add";
     private int SelectValue = 0;
-    private string Message = ""; 
-    protected Table? _State;
-
+    protected Table? TableObject;
 
     private void Generate()
     {
-        Data.Jbs = Data.InitializeJobs(); 
-        _State.RefreshState();
+        Data.Jbs = Data.InitializeJobs();
+        TableObject.RefreshState();
     }
 
     public void Toogle()
@@ -82,6 +79,6 @@
 
     private void Refresh()
     {
-        _State.RefreshState();
+        TableObject.RefreshState();
     }
 }

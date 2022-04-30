@@ -4,9 +4,9 @@ namespace ScheduleApp.Data
 {
     public class DataTable
     {
-        public int Jobs { get; set; }
-        public int Machines { get; set; }
-        public int Tasks { get; set; }
+        public int Jobs { get; set; } = 3;
+        public int Machines { get; set; } = 3;
+        public int Tasks { get; set; } = 3;
         public bool Flag { get; set; }
         public bool ZeroCell { get; set; }
         public List<List<(int, int)[]>> Jbs { get; set; }
