@@ -20,12 +20,12 @@
         <input type="text" id="filename" value="@filename"  @onchange="@(e => ChangeFileName(e))">
     </div>
 </div>
-@jsonContent
-<Table />
+<Table @ref="tableObject" />
 
 @code {
     string jsonContent = "";
     string filename = "data";
+    Table? tableObject;
     IFileListEntry file; 
 
     async Task HandleSelection(IFileListEntry[] files)
@@ -41,7 +41,13 @@
         {
             filename = Path.GetFileNameWithoutExtension(file.Name); 
         }
-        
+
+        var jbs = JsonConvert.DeserializeObject<List<List<(int, int)[]>>>(jsonContent);
+        Data.Jobs = jbs.Count(); 
+        Data.Tasks = jbs[0].Count();
+        Data.Machines = jbs[0][0].Length;
+        Data.Jbs = jbs; 
+        tableObject.RefreshState();
     }
 
     private async void SaveInJson()
